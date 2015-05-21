@@ -115,8 +115,7 @@ public class FloatingLabelTextField: UITextField {
                 self.placeholder = label.text
 
                 // Set the floating label's initial state based on whether it should currently be visible or hidden.
-                self.presentOrDismissFloatingLabel(animated: NO)
-                self.adjustFloatingLabelColor(animated: NO)
+                self.updateFloatingLabel()
             }
         }
     }
@@ -172,7 +171,9 @@ public class FloatingLabelTextField: UITextField {
 
                     // Allow text field's cursor animations to finish.
                     // (without this here, our animations interfere with the cursor's animations, causing unwanted side-effects)
-                    superview.layoutIfNeeded()
+                    if animated {
+                        superview.layoutIfNeeded()
+                    }
 
                     var alpha: CGFloat
 
@@ -268,9 +269,10 @@ public class FloatingLabelTextField: UITextField {
         self.updateFloatingLabel()
     }
 
-    private func updateFloatingLabel() {
-        self.presentOrDismissFloatingLabel()
-        self.adjustFloatingLabelColor()
+    private func updateFloatingLabel(var animated: Bool = YES) {
+        animated = animated && self.textFieldDidDrawRect
+        self.presentOrDismissFloatingLabel(animated: animated)
+        self.adjustFloatingLabelColor(animated: animated)
     }
 
     public override func drawRect(rect: CGRect) {
