@@ -89,7 +89,7 @@ public class FloatingLabelTextField: UITextField {
     // MARK:- Initialization and Setup
     //
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -120,7 +120,7 @@ public class FloatingLabelTextField: UITextField {
         }
     }
 
-    override public var text: String! {
+    override public var text: String? {
         didSet {
             // Detect text changes made in code.
             self.updateFloatingLabel()
@@ -139,18 +139,18 @@ public class FloatingLabelTextField: UITextField {
         var hasPlaceholder: Bool = NO
 
         if let placeholder = self.placeholder {
-            hasPlaceholder = count(placeholder) > 0
+            hasPlaceholder = placeholder.characters.count > 0
         }
 
         if !hasPlaceholder {
             if let placeholder = self.floatingLabel?.text {
-                hasPlaceholder = count(placeholder) > 0
+                hasPlaceholder = placeholder.characters.count > 0
             }
         }
 
         if !hasPlaceholder {
             if let text = self.floatingLabel?.text {
-                hasPlaceholder = count(text) > 0
+                hasPlaceholder = text.characters.count > 0
             }
         }
 
@@ -158,7 +158,7 @@ public class FloatingLabelTextField: UITextField {
         var hasText: Bool = NO
 
         if let text = self.text {
-            hasText = count(text) > 0
+            hasText = text.characters.count > 0
         }
 
         return hasPlaceholder && hasText
@@ -189,7 +189,7 @@ public class FloatingLabelTextField: UITextField {
                     if animated {
                         UIView.animateWithDuration(floatingLabelAnimationDuration,
                             delay: 0.0,
-                            options: .BeginFromCurrentState | .AllowUserInteraction,
+                            options: [.BeginFromCurrentState, .AllowUserInteraction],
                             animations: {
                                 label.alpha = alpha
                                 superview.layoutIfNeeded()
@@ -227,7 +227,7 @@ public class FloatingLabelTextField: UITextField {
             if animated {
                 UIView.transitionWithView(label,
                     duration: floatingLabelColorTransitionDuration,
-                    options: .TransitionCrossDissolve | .BeginFromCurrentState | .AllowUserInteraction,
+                    options: [.TransitionCrossDissolve, .BeginFromCurrentState, .AllowUserInteraction],
                     animations: {
                         label.textColor = color
                     }, completion: nil)
@@ -271,8 +271,8 @@ public class FloatingLabelTextField: UITextField {
 
     private func updateFloatingLabel(var animated: Bool = YES) {
         animated = animated && self.textFieldDidDrawRect
-        self.presentOrDismissFloatingLabel(animated: animated)
-        self.adjustFloatingLabelColor(animated: animated)
+        self.presentOrDismissFloatingLabel(animated)
+        self.adjustFloatingLabelColor(animated)
     }
 
     public override func drawRect(rect: CGRect) {

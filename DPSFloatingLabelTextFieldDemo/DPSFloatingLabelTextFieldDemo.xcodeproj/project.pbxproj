@@ -160,6 +160,7 @@
 		713CBD9F1B08B04200B79AFE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = DuneParkSoftware;
 				TargetAttributes = {
