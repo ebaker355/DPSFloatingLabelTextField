@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		076CD3801E9062E700259AE7 /* DPSFloatingLabelTextField.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 076CD37F1E9062E700259AE7 /* DPSFloatingLabelTextField.framework */; };
 		713CBDAD1B08B04200B79AFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CBDAC1B08B04200B79AFE /* AppDelegate.swift */; };
 		713CBDAF1B08B04200B79AFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CBDAE1B08B04200B79AFE /* ViewController.swift */; };
 		713CBDB21B08B04200B79AFE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 713CBDB01B08B04200B79AFE /* Main.storyboard */; };
 		713CBDB41B08B04200B79AFE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 713CBDB31B08B04200B79AFE /* Images.xcassets */; };
 		713CBDB71B08B04200B79AFE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713CBDB51B08B04200B79AFE /* LaunchScreen.xib */; };
 		713CBDC31B08B04200B79AFE /* DPSFloatingLabelTextFieldDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713CBDC21B08B04200B79AFE /* DPSFloatingLabelTextFieldDemoTests.swift */; };
-		71C2DC1D1B0963400034BBEC /* DPSFloatingLabelTextField.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C2DC1C1B0963400034BBEC /* DPSFloatingLabelTextField.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		076CD37F1E9062E700259AE7 /* DPSFloatingLabelTextField.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DPSFloatingLabelTextField.framework; path = "../../../../Library/Developer/Xcode/DerivedData/DPSFloatingLabelTextField-fawsmowbkltfcvdhzifqjmokzsti/Build/Products/Debug-iphonesimulator/DPSFloatingLabelTextField.framework"; sourceTree = "<group>"; };
 		713CBDA71B08B04200B79AFE /* DPSFloatingLabelTextFieldDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DPSFloatingLabelTextFieldDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		713CBDAB1B08B04200B79AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		713CBDAC1B08B04200B79AFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +38,6 @@
 		713CBDBC1B08B04200B79AFE /* DPSFloatingLabelTextFieldDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DPSFloatingLabelTextFieldDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		713CBDC11B08B04200B79AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		713CBDC21B08B04200B79AFE /* DPSFloatingLabelTextFieldDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPSFloatingLabelTextFieldDemoTests.swift; sourceTree = "<group>"; };
-		71C2DC1C1B0963400034BBEC /* DPSFloatingLabelTextField.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DPSFloatingLabelTextField.framework; path = "../build/Debug-iphoneos/DPSFloatingLabelTextField.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71C2DC1D1B0963400034BBEC /* DPSFloatingLabelTextField.framework in Frameworks */,
+				076CD3801E9062E700259AE7 /* DPSFloatingLabelTextField.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,13 +59,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		076CD37E1E9062E600259AE7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				076CD37F1E9062E700259AE7 /* DPSFloatingLabelTextField.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		713CBD9E1B08B04200B79AFE = {
 			isa = PBXGroup;
 			children = (
-				71C2DC1C1B0963400034BBEC /* DPSFloatingLabelTextField.framework */,
 				713CBDA91B08B04200B79AFE /* DPSFloatingLabelTextFieldDemo */,
 				713CBDBF1B08B04200B79AFE /* DPSFloatingLabelTextFieldDemoTests */,
 				713CBDA81B08B04200B79AFE /* Products */,
+				076CD37E1E9062E600259AE7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -160,12 +168,12 @@
 		713CBD9F1B08B04200B79AFE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = DuneParkSoftware;
 				TargetAttributes = {
 					713CBDA61B08B04200B79AFE = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 7CRPKLHC7G;
 					};
 					713CBDBB1B08B04200B79AFE = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -263,6 +271,7 @@
 		713CBDC41B08B04200B79AFE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -273,15 +282,17 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -302,12 +313,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		713CBDC51B08B04200B79AFE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -318,14 +331,15 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -339,6 +353,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -347,12 +363,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/s6eab/Desktop/DPSFloatingLabelTextField/build/Debug-iphoneos",
-				);
+				DEVELOPMENT_TEAM = 7CRPKLHC7G;
 				INFOPLIST_FILE = DPSFloatingLabelTextFieldDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.duneparksoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -361,12 +375,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/s6eab/Desktop/DPSFloatingLabelTextField/build/Debug-iphoneos",
-				);
+				DEVELOPMENT_TEAM = 7CRPKLHC7G;
 				INFOPLIST_FILE = DPSFloatingLabelTextFieldDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.duneparksoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -385,6 +397,7 @@
 				);
 				INFOPLIST_FILE = DPSFloatingLabelTextFieldDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.duneparksoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DPSFloatingLabelTextFieldDemo.app/DPSFloatingLabelTextFieldDemo";
 			};
@@ -400,6 +413,7 @@
 				);
 				INFOPLIST_FILE = DPSFloatingLabelTextFieldDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.duneparksoftware.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DPSFloatingLabelTextFieldDemo.app/DPSFloatingLabelTextFieldDemo";
 			};
