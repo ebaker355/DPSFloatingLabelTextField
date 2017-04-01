@@ -28,16 +28,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 import UIKit
 
-private let YES = true
-private let NO = false
-
-public class FloatingLabelTextField: UITextField {
+open class FloatingLabelTextField: UITextField {
 
     // Wait until the text field is drawn before we begin making visual changes.
-    private var textFieldDidDrawRect: Bool = NO
+    fileprivate var textFieldDidDrawRect: Bool = false
 
     // The UILabel that acts as the floating label should be baseline-aligned
     // with the text field. It should be placed in its visible position in IB.
@@ -46,11 +42,11 @@ public class FloatingLabelTextField: UITextField {
     // Connect this to the label <--> text field baseline constraint.
     // This constraint's constant is set to 0, causing the label to hide; it
     // is set to whatever its value is in IB, causing the label to appear.
-    @IBOutlet internal(set) weak var baselineConstraint: NSLayoutConstraint?
+    @IBOutlet internal(set) var baselineConstraint: NSLayoutConstraint?
 
     // Override the IB value for the baseline constraint constant.
     // If the label is visible, it is animated immediately.
-    public var baselineConstantWhenVisible: CGFloat = CGFloat(0.0) {
+    open var baselineConstantWhenVisible: CGFloat = CGFloat(0.0) {
         didSet {
             if textFieldDidDrawRect {
                 self.updateFloatingLabel()
@@ -61,66 +57,63 @@ public class FloatingLabelTextField: UITextField {
     // The label's color when visible, while its text field is being edited.
     // Setable in IB.
     // Defaults to the text field's tint color.
-    @IBInspectable public var activeFloatingLabelColor: UIColor?
+    @IBInspectable open var activeFloatingLabelColor: UIColor?
 
     // The label's color when visible, while its text field is not being edited.
     // Setable in IB.
     // Defaults to 70% gray (UITextField placeholder default color).
-    @IBInspectable public var inactiveFloatingLabelColor: UIColor?
+    @IBInspectable open var inactiveFloatingLabelColor: UIColor?
 
     // Returns whether the text field's floating label is visible or not.
-    public var isFloatingLabelVisible: Bool {
+    open var isFloatingLabelVisible: Bool {
         get {
             if let constraint = self.baselineConstraint {
                 return constraint.constant != 0.0
             }
-            return NO
+            return false
         }
     }
 
     // Animation duration for showing/hiding the floating label.
-    public var floatingLabelAnimationDuration: Double = 0.3
+    open var floatingLabelAnimationDuration: Double = 0.3
 
     // Animation duration for changing the floating label's text color.
-    public var floatingLabelColorTransitionDuration: Double = 0.1
+    open var floatingLabelColorTransitionDuration: Double = 0.1
 
 
     //
     // MARK:- Initialization and Setup
     //
 
-    public required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
-    public override func setValue(value: AnyObject?, forKeyPath keyPath: String) {
+    open override func setValue(_ value: Any?, forKeyPath keyPath: String) {
         super.setValue(value, forKeyPath: keyPath)
 
         // Watch for the IB outlets to arrive.
-        if keyPath == "floatingLabel" || keyPath == "baselineConstraint" {
+        if [#keyPath(floatingLabel), #keyPath(baselineConstraint)].contains(keyPath) {
             self.outletsDidArrive()
         }
     }
 
-    private func outletsDidArrive() {
-        if let label = self.floatingLabel {
-            if let constraint = self.baselineConstraint {
+    fileprivate func outletsDidArrive() {
+        guard
+            let label = self.floatingLabel,
+            let constraint = self.baselineConstraint
+            else { return }
 
-                // Grab the current constant value of the label's baseline constraint.
-                // (Documentation specifies that the label should be drawn as visible in IB.)
-                baselineConstantWhenVisible = constraint.constant
 
-                // Set our placeholder to match the label's text.
-                // (Documentation specifies that the label will be used as the text field's placeholder, overwriting any existing value.)
-                self.placeholder = label.text
+        // Grab the current constant value of the label's baseline constraint.
+        // (Documentation specifies that the label should be drawn as visible in IB.)
+        baselineConstantWhenVisible = constraint.constant
 
-                // Set the floating label's initial state based on whether it should currently be visible or hidden.
-                self.updateFloatingLabel()
-            }
-        }
+        // Set our placeholder to match the label's text.
+        // (Documentation specifies that the label will be used as the text field's placeholder, overwriting any existing value.)
+        self.placeholder = label.text
+
+        // Set the floating label's initial state based on whether it should currently be visible or hidden.
+        self.updateFloatingLabel()
     }
 
-    override public var text: String! {
+    override open var text: String! {
         didSet {
             // Detect text changes made in code.
             self.updateFloatingLabel()
@@ -132,109 +125,86 @@ public class FloatingLabelTextField: UITextField {
     // MARK:- Floating Label State and Animation
     //
 
-    private func floatingLabelShouldBeVisible() -> Bool {
-        // There are two requirements for the floating label to be visible:
+    fileprivate func floatingLabelShouldBeVisible() -> Bool {
+        // For the floating label to be visible, we must have a placeholder string assigned,
+        // and we must have text in the field.
 
-        // First, we must have a placeholder string assigned.
-        var hasPlaceholder: Bool = NO
-
-        if let placeholder = self.placeholder {
-            hasPlaceholder = count(placeholder) > 0
-        }
-
-        if !hasPlaceholder {
-            if let placeholder = self.floatingLabel?.text {
-                hasPlaceholder = count(placeholder) > 0
-            }
-        }
-
-        if !hasPlaceholder {
-            if let text = self.floatingLabel?.text {
-                hasPlaceholder = count(text) > 0
-            }
-        }
-
-        // Second, we must have text present.
-        var hasText: Bool = NO
-
-        if let text = self.text {
-            hasText = count(text) > 0
-        }
-
-        return hasPlaceholder && hasText
+        guard
+            (!(placeholder?.isEmpty)! || !(floatingLabel?.text?.isEmpty)!),
+            !text.isEmpty
+            else { return false }
+        return true
     }
 
-    private func presentOrDismissFloatingLabel(animated: Bool = YES) {
-        if let superview = self.superview {
-            if let label = self.floatingLabel {
-                if let constraint = self.baselineConstraint {
+    fileprivate func presentOrDismissFloatingLabel(_ animated: Bool = false) {
+        guard
+            let superview = superview,
+            let label = floatingLabel,
+            let constraint = baselineConstraint
+            else { return }
 
-                    // Allow text field's cursor animations to finish.
-                    // (without this here, our animations interfere with the cursor's animations, causing unwanted side-effects)
-                    if animated {
-                        superview.layoutIfNeeded()
-                    }
+        // Allow text field's cursor animations to finish.
+        // (without this here, our animations interfere with the cursor's animations, causing unwanted side-effects)
+        if animated {
+            superview.layoutIfNeeded()
+        }
 
-                    var alpha: CGFloat
+        var alpha: CGFloat
 
-                    if self.floatingLabelShouldBeVisible() {
-                        alpha = 1.0
-                        constraint.constant = self.baselineConstantWhenVisible
-                    }
-                    else {
-                        alpha = 0.0
-                        constraint.constant = CGFloat(0.0)
-                    }
+        if self.floatingLabelShouldBeVisible() {
+            alpha = 1.0
+            constraint.constant = self.baselineConstantWhenVisible
+        }
+        else {
+            alpha = 0.0
+            constraint.constant = CGFloat(0.0)
+        }
 
-                    if animated {
-                        UIView.animateWithDuration(floatingLabelAnimationDuration,
-                            delay: 0.0,
-                            options: .BeginFromCurrentState | .AllowUserInteraction,
-                            animations: {
-                                label.alpha = alpha
-                                superview.layoutIfNeeded()
-                            }, completion: nil)
-                    }
-                    else {
-                        label.alpha = alpha
-                    }
-                }
-            }
+        if animated {
+            UIView.animate(withDuration: floatingLabelAnimationDuration,
+                delay: 0.0,
+                options: [.beginFromCurrentState, .allowUserInteraction],
+                animations: {
+                    label.alpha = alpha
+                    superview.layoutIfNeeded()
+                })
+        }
+        else {
+            label.alpha = alpha
         }
     }
 
-    private let seventyPercentGrayColor: UIColor = UIColor(white: 0.7, alpha: 1.0)
+    fileprivate let seventyPercentGrayColor: UIColor = UIColor(white: 0.7, alpha: 1.0)
 
-    private func adjustFloatingLabelColor(animated: Bool = YES) {
-        if !self.isFloatingLabelVisible {
-            return
+    fileprivate func adjustFloatingLabelColor(_ animated: Bool = false) {
+        guard
+            self.isFloatingLabelVisible,
+            let label = self.floatingLabel
+            else { return }
+
+        var color = self.isFirstResponder ? self.tintColor : self.seventyPercentGrayColor
+
+        if self.isFirstResponder {
+            if let chosenColor = self.activeFloatingLabelColor {
+                color = chosenColor
+            }
+        }
+        else {
+            if let chosenColor = self.inactiveFloatingLabelColor {
+                color = chosenColor
+            }
         }
 
-        if let label = self.floatingLabel {
-            var color = self.isFirstResponder() ? self.tintColor : self.seventyPercentGrayColor
-
-            if self.isFirstResponder() {
-                if let chosenColor = self.activeFloatingLabelColor {
-                    color = chosenColor
-                }
-            }
-            else {
-                if let chosenColor = self.inactiveFloatingLabelColor {
-                    color = chosenColor
-                }
-            }
-
-            if animated {
-                UIView.transitionWithView(label,
-                    duration: floatingLabelColorTransitionDuration,
-                    options: .TransitionCrossDissolve | .BeginFromCurrentState | .AllowUserInteraction,
-                    animations: {
-                        label.textColor = color
-                    }, completion: nil)
-            }
-            else {
-                label.textColor = color
-            }
+        if animated {
+            UIView.transition(with: label,
+                duration: floatingLabelColorTransitionDuration,
+                options: [.transitionCrossDissolve, .beginFromCurrentState , .allowUserInteraction],
+                animations: {
+                    label.textColor = color
+                }, completion: nil)
+        }
+        else {
+            label.textColor = color
         }
     }
 
@@ -243,22 +213,22 @@ public class FloatingLabelTextField: UITextField {
     // MARK:- Text Field Events
     //
 
-    public override func becomeFirstResponder() -> Bool {
+    open override func becomeFirstResponder() -> Bool {
         let didBecomeFirstResponder = super.becomeFirstResponder()
 
         if didBecomeFirstResponder {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "textDidChange", name: UITextFieldTextDidChangeNotification, object: self)
+            NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: Notification.Name.UITextFieldTextDidChange, object: self)
             self.updateFloatingLabel()
         }
 
         return didBecomeFirstResponder
     }
 
-    public override func resignFirstResponder() -> Bool {
+    open override func resignFirstResponder() -> Bool {
         let didResignFirstResponder = super.resignFirstResponder()
 
         if didResignFirstResponder {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextFieldTextDidChangeNotification, object: self)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UITextFieldTextDidChange, object: self)
             self.updateFloatingLabel()
         }
 
@@ -269,14 +239,15 @@ public class FloatingLabelTextField: UITextField {
         self.updateFloatingLabel()
     }
 
-    private func updateFloatingLabel(var animated: Bool = YES) {
+    private func updateFloatingLabel(_ animated: Bool = true) {
+        var animated = animated
         animated = animated && self.textFieldDidDrawRect
-        self.presentOrDismissFloatingLabel(animated: animated)
-        self.adjustFloatingLabelColor(animated: animated)
+        self.presentOrDismissFloatingLabel(animated)
+        self.adjustFloatingLabelColor(animated)
     }
 
-    public override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
-        textFieldDidDrawRect = YES
+    open override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        textFieldDidDrawRect = true
     }
 }

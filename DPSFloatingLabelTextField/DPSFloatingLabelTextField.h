@@ -29,7 +29,7 @@
 // SOFTWARE.
 
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 //! Project version number for DPSFloatingLabelTextField.
 FOUNDATION_EXPORT double DPSFloatingLabelTextFieldVersionNumber;
