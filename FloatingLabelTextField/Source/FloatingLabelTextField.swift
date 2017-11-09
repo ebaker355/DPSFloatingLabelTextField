@@ -47,12 +47,13 @@ open class FloatingLabelTextField: UITextField {
         static let bottomLineBorderColor: UIColor = .gray
         static let bottomLineBorderHeight: CGFloat = 1.0
         static let minimumBottomLineBorderHeight: CGFloat = 0.5
-        static let bottomLineBorderTopMargin: CGFloat = 0.0
-        static let floatingLabelBottomMargin: CGFloat = 1.0
+        static let bottomLineBorderTopMargin: CGFloat = 1.0
+        static let floatingLabelBottomMargin: CGFloat = 2.0
         static let floatingLabelFontScale: CGFloat = 1.0
         static let floatingLabelFontScaleMinimumValue: CGFloat = 0.5
+        static let floatingLabelInactiveColor: UIColor = .gray
         static let floatAnimationDuration = TimeInterval(0.2)
-        static let floatLabelColorChangeAnimationDuration = TimeInterval(0.1)
+        static let colorChangeAnimationDuration = TimeInterval(0.1)
     }
 
     fileprivate weak var bottomLineBorderView: UIView?
@@ -119,7 +120,7 @@ open class FloatingLabelTextField: UITextField {
     }
 
     /// Gets or sets the space between the top of the bottom border line, and the bottom of the text field.
-    /// Default is 0.0
+    /// Default is 1.0
     @IBInspectable open dynamic var bottomLineBorderTopMargin: CGFloat = Defaults.bottomLineBorderTopMargin {
         didSet {
             if let constraint = bottomLineBorderViewTopConstraint {
@@ -164,7 +165,7 @@ open class FloatingLabelTextField: UITextField {
     private var _floatingLabelBottomMargin: CGFloat = Defaults.floatingLabelBottomMargin
 
     /// Gets or sets the vertical space between the bottom of the floating label and the top of the text field.
-    /// Defaults to 0.0.
+    /// Defaults to 2.0.
     @IBInspectable open dynamic var floatingLabelBottomMargin: CGFloat {
         get {
             return _floatingLabelBottomMargin
@@ -197,11 +198,11 @@ open class FloatingLabelTextField: UITextField {
     }
 
     /// Gets or sets the floating label color while the text field is not the first responder. By default, the color is
-    /// gray.
+    /// gray. If `nil`, then the active color is used.
     ///
     /// -seealso:
     /// `floatingLabelActiveColor`
-    @IBInspectable open dynamic var floatingLabelInactiveColor: UIColor?
+    @IBInspectable open dynamic var floatingLabelInactiveColor: UIColor? = Defaults.floatingLabelInactiveColor
 
     open override var borderStyle: UITextBorderStyle {
         get {
@@ -219,6 +220,17 @@ open class FloatingLabelTextField: UITextField {
                 super.borderStyle = newValue
             }
         }
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        var size = super.intrinsicContentSize
+        size.height = ceil(max(size.height, font?.lineHeight ?? size.height))
+
+        if useBottomLineBorderStyle {
+            size.height += ceil(bottomLineBorderTopMargin + bottomLineBorderHeight)
+        }
+
+        return size
     }
 }
 
@@ -320,7 +332,7 @@ extension FloatingLabelTextField {
             return
         }
 
-        UIView.transition(with: label, duration: Defaults.floatLabelColorChangeAnimationDuration, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: { [unowned label, color] in
+        UIView.transition(with: label, duration: Defaults.colorChangeAnimationDuration, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: { [unowned label, color] in
             label.textColor = color
         }, completion: nil)
     }
@@ -343,6 +355,7 @@ extension FloatingLabelTextField {
 
     fileprivate func installBottomLineBorderView() {
         let view = UIView()
+        view.backgroundColor = bottomLineBorderColor
         addSubview(view)
 
         view.translatesAutoresizingMaskIntoConstraints = false
