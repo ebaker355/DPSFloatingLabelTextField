@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		074C260C1FB3883800264171 /* FloatingLabelTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 074C260B1FB3883800264171 /* FloatingLabelTextField.h */; };
+		071AFB531FB38940000F0832 /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071AFB521FB38940000F0832 /* FloatingLabelTextField.swift */; };
+		074C260C1FB3883800264171 /* FloatingLabelTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 074C260B1FB3883800264171 /* FloatingLabelTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		071AFB4E1FB388FF000F0832 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		071AFB4F1FB388FF000F0832 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		071AFB521FB38940000F0832 /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
+		071AFB581FB3900D000F0832 /* .swift-version */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ".swift-version"; sourceTree = "<group>"; };
 		074C25FF1FB387C000264171 /* FloatingLabelTextField.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FloatingLabelTextField.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		074C260B1FB3883800264171 /* FloatingLabelTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatingLabelTextField.h; sourceTree = "<group>"; };
 		074C260D1FB3884300264171 /* FloatingLabelTextField-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FloatingLabelTextField-Info.plist"; sourceTree = "<group>"; };
@@ -30,9 +35,12 @@
 		074C25F51FB387C000264171 = {
 			isa = PBXGroup;
 			children = (
+				071AFB581FB3900D000F0832 /* .swift-version */,
+				071AFB4E1FB388FF000F0832 /* LICENSE */,
+				071AFB4F1FB388FF000F0832 /* README.md */,
 				074C260D1FB3884300264171 /* FloatingLabelTextField-Info.plist */,
-				074C260A1FB3882100264171 /* Source */,
 				074C26001FB387C000264171 /* Products */,
+				074C260A1FB3882100264171 /* Source */,
 			);
 			sourceTree = "<group>";
 		};
@@ -48,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				074C260B1FB3883800264171 /* FloatingLabelTextField.h */,
+				071AFB521FB38940000F0832 /* FloatingLabelTextField.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -90,12 +99,13 @@
 		074C25F61FB387C000264171 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "DuneParkSoftware, LLC";
 				TargetAttributes = {
 					074C25FE1FB387C000264171 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 7CRPKLHC7G;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -132,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				071AFB531FB38940000F0832 /* FloatingLabelTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,7 +159,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -156,7 +169,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -202,7 +219,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -210,7 +229,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -242,6 +265,7 @@
 		074C26081FB387C000264171 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 7CRPKLHC7G;
@@ -254,6 +278,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.duneparksoftware.FloatingLabelTextField;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -261,6 +286,7 @@
 		074C26091FB387C000264171 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 7CRPKLHC7G;
@@ -296,6 +322,7 @@
 				074C26091FB387C000264171 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
