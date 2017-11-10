@@ -137,7 +137,7 @@ open class FloatingLabelTextField: UITextField {
     ///
     /// -seealso:
     /// `floatingLabelFontScale`
-    open dynamic var floatingLabelFont: UIFont {
+    @objc open dynamic var floatingLabelFont: UIFont {
         get {
             let labelFont = _floatingLabelFont ?? font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize)
             return UIFont(descriptor: labelFont.fontDescriptor, size: labelFont.pointSize * floatingLabelFontScale)
