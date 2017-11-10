@@ -52,15 +52,15 @@ open class FloatingLabelTextField: UITextField {
         static let floatingLabelFontScale: CGFloat = 1.0
         static let floatingLabelFontScaleMinimumValue: CGFloat = 0.5
         static let floatingLabelInactiveColor: UIColor = .gray
-        static let floatAnimationDuration = TimeInterval(0.2)
-        static let colorChangeAnimationDuration = TimeInterval(0.1)
+        static let floatAnimationDuration = TimeInterval(0.3)
+        static let colorChangeAnimationDuration = TimeInterval(0.2)
     }
 
     fileprivate weak var bottomLineBorderView: UIView?
     fileprivate weak var bottomLineBorderViewHeightConstraint: NSLayoutConstraint?
     fileprivate weak var bottomLineBorderViewTopConstraint: NSLayoutConstraint?
     fileprivate var originalBorderStyle: UITextBorderStyle? = nil
-    fileprivate var originalPlaceholder: String? = nil
+    fileprivate var originalPlaceholder: NSAttributedString? = nil
     fileprivate weak var floatingLabel: UILabel? = nil
     fileprivate weak var floatingLabelBaselineConstraint: NSLayoutConstraint? = nil
 
@@ -266,7 +266,7 @@ extension FloatingLabelTextField {
             return
         }
 
-        originalPlaceholder = placeholder
+        originalPlaceholder = attributedPlaceholder ?? NSAttributedString(string: placeholder)
         self.placeholder = nil
 
         let label = UILabel()
@@ -284,10 +284,11 @@ extension FloatingLabelTextField {
             baselineConstraint
         ])
 
+        layoutSubviews()
         UIView.animate(withDuration: Defaults.floatAnimationDuration) { [unowned self, label] in
             baselineConstraint.constant = -(self.bounds.size.height + self.floatingLabelBottomMargin)
             label.alpha = 1.0
-            self.layoutIfNeeded()
+            self.layoutSubviews()
         }
 
         floatingLabel = label
@@ -309,16 +310,17 @@ extension FloatingLabelTextField {
             return
         }
 
+        layoutSubviews()
         UIView.animate(withDuration: Defaults.floatAnimationDuration, animations: { [unowned self, label, baselineConstraint] in
             baselineConstraint.constant = 0.0
             label.alpha = 0.0
-            self.layoutIfNeeded()
+            self.layoutSubviews()
         }) { [unowned self, label, placeholder] finished in
             guard finished else {
                 return
             }
 
-            self.placeholder = placeholder
+            self.attributedPlaceholder = placeholder
             self.originalPlaceholder = nil
 
             label.removeFromSuperview()
@@ -334,7 +336,7 @@ extension FloatingLabelTextField {
 
         UIView.transition(with: label, duration: Defaults.colorChangeAnimationDuration, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: { [unowned label, color] in
             label.textColor = color
-        }, completion: nil)
+        })
     }
 }
 
