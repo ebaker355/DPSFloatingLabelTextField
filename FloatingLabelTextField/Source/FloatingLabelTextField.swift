@@ -284,11 +284,11 @@ extension FloatingLabelTextField {
             baselineConstraint
         ])
 
-        layoutSubviews()
+        layoutIfNeeded()
         UIView.animate(withDuration: Defaults.floatAnimationDuration) { [unowned self, label] in
             baselineConstraint.constant = -(self.bounds.size.height + self.floatingLabelBottomMargin)
             label.alpha = 1.0
-            self.layoutSubviews()
+            self.layoutIfNeeded()
         }
 
         floatingLabel = label
@@ -310,11 +310,11 @@ extension FloatingLabelTextField {
             return
         }
 
-        layoutSubviews()
+        layoutIfNeeded()
         UIView.animate(withDuration: Defaults.floatAnimationDuration, animations: { [unowned self, label, baselineConstraint] in
             baselineConstraint.constant = 0.0
             label.alpha = 0.0
-            self.layoutSubviews()
+            self.layoutIfNeeded()
         }) { [unowned self, label, placeholder] finished in
             guard finished else {
                 return
