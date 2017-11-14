@@ -28,7 +28,7 @@
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
-*/
+ */
 
 import UIKit
 
@@ -222,6 +222,19 @@ open class FloatingLabelTextField: UITextField {
         }
     }
 
+    open override var text: String? {
+        get {
+            return super.text
+        }
+        set {
+            super.text = newValue
+
+            if !isFirstResponder {
+                updateFloatingLabelVisibility(animated: false)
+            }
+        }
+    }
+
     open override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         size.height = ceil(max(size.height, font?.lineHeight ?? size.height))
@@ -257,13 +270,24 @@ extension FloatingLabelTextField {
         return resignedFirstResponder
     }
 
-    private func presentFloatingLabel() {
+    fileprivate func updateFloatingLabelVisibility(animated: Bool = true) {
+        DispatchQueue.main.async { [unowned self] in
+            if self.text != nil && !self.text!.isEmpty {
+                self.presentFloatingLabel(animated: animated)
+            }
+            else {
+                self.dismissFloatingLabel(animated: animated)
+            }
+        }
+    }
+
+    private func presentFloatingLabel(animated: Bool = true) {
         guard
             let placeholder = placeholder,
             !placeholder.isEmpty
-        else {
-            setFloatingLabelTextColor(floatingLabelActiveColor)
-            return
+            else {
+                updateFloatingLabelTextColor()
+                return
         }
 
         originalPlaceholder = attributedPlaceholder ?? NSAttributedString(string: placeholder)
@@ -282,44 +306,40 @@ extension FloatingLabelTextField {
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: leadingAnchor),
             baselineConstraint
-        ])
+            ])
 
-        layoutIfNeeded()
-        UIView.animate(withDuration: Defaults.floatAnimationDuration) { [unowned self, label] in
+        let completeState = { [unowned self, label] in
             baselineConstraint.constant = -(self.bounds.size.height + self.floatingLabelBottomMargin)
             label.alpha = 1.0
-            self.layoutIfNeeded()
+        }
+
+        if animated {
+            layoutIfNeeded()
+            UIView.animate(withDuration: Defaults.floatAnimationDuration) { _ in
+                completeState()
+                self.layoutIfNeeded()
+            }
+        }
+        else {
+            completeState()
         }
 
         floatingLabel = label
         floatingLabelBaselineConstraint = baselineConstraint
     }
 
-    private func dismissFloatingLabel() {
+    private func dismissFloatingLabel(animated: Bool = true) {
         guard
             text?.isEmpty ?? true,
             let placeholder = originalPlaceholder,
             let label = floatingLabel,
             let baselineConstraint = floatingLabelBaselineConstraint
-        else {
-            guard let color = floatingLabelInactiveColor else {
+            else {
+                updateFloatingLabelTextColor()
                 return
-            }
-
-            setFloatingLabelTextColor(color)
-            return
         }
 
-        layoutIfNeeded()
-        UIView.animate(withDuration: Defaults.floatAnimationDuration, animations: { [unowned self, label, baselineConstraint] in
-            baselineConstraint.constant = 0.0
-            label.alpha = 0.0
-            self.layoutIfNeeded()
-        }) { [unowned self, label, placeholder] finished in
-            guard finished else {
-                return
-            }
-
+        let completeState = { [unowned self, label] in
             self.attributedPlaceholder = placeholder
             self.originalPlaceholder = nil
 
@@ -327,16 +347,37 @@ extension FloatingLabelTextField {
             self.floatingLabel = nil
             self.floatingLabelBaselineConstraint = nil
         }
+
+        if animated {
+            layoutIfNeeded()
+            UIView.animate(withDuration: Defaults.floatAnimationDuration, animations: { [unowned self, label, baselineConstraint] in
+                baselineConstraint.constant = 0.0
+                label.alpha = 0.0
+                self.layoutIfNeeded()
+            }) { _ in
+                completeState()
+            }
+        }
+        else {
+            completeState()
+        }
     }
 
-    private func setFloatingLabelTextColor(_ color: UIColor) {
+    private func updateFloatingLabelTextColor() {
         guard let label = floatingLabel else {
             return
         }
 
-        UIView.transition(with: label, duration: Defaults.colorChangeAnimationDuration, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: { [unowned label, color] in
+        let color: UIColor = isFirstResponder ? floatingLabelActiveColor : (floatingLabelInactiveColor ?? Defaults.floatingLabelInactiveColor)
+
+        if isFirstResponder {
+            UIView.transition(with: label, duration: Defaults.colorChangeAnimationDuration, options: [.transitionCrossDissolve, .beginFromCurrentState], animations: { [unowned label, color] in
+                label.textColor = color
+            })
+        }
+        else {
             label.textColor = color
-        })
+        }
     }
 }
 
@@ -368,13 +409,13 @@ extension FloatingLabelTextField {
             view.rightAnchor.constraint(equalTo: rightAnchor),
             topConstraint,
             heightConstraint
-        ])
+            ])
 
         bottomLineBorderView = view
         bottomLineBorderViewHeightConstraint = heightConstraint
         bottomLineBorderViewTopConstraint = topConstraint
     }
-
+    
     fileprivate func removeBottomLineBorderView() {
         bottomLineBorderView?.removeFromSuperview()
         bottomLineBorderView = nil
