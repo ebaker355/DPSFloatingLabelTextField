@@ -245,6 +245,26 @@ open class FloatingLabelTextField: UITextField {
 
         return size
     }
+
+    open override var clipsToBounds: Bool {
+        get {
+            guard #available(iOS 10, *) else {
+                // iOS 9 and under requires this setting.
+                return false
+            }
+
+            return super.clipsToBounds
+        }
+        set {
+            guard #available(iOS 10, *) else {
+                // iOS 9 and under requires this setting.
+                super.clipsToBounds = false
+                return
+            }
+
+            super.clipsToBounds = newValue
+        }
+    }
 }
 
 // MARK:- Floating Label Support
