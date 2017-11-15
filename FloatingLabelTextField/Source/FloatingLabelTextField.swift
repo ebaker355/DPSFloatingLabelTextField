@@ -271,6 +271,10 @@ open class FloatingLabelTextField: UITextField {
 
 extension FloatingLabelTextField {
     open override func becomeFirstResponder() -> Bool {
+        guard !isFirstResponder else {
+            return true
+        }
+
         let becameFirstResponder = super.becomeFirstResponder()
         if becameFirstResponder {
             DispatchQueue.main.async { [unowned self] in
@@ -281,6 +285,10 @@ extension FloatingLabelTextField {
     }
 
     open override func resignFirstResponder() -> Bool {
+        guard isFirstResponder else {
+            return true
+        }
+
         let resignedFirstResponder = super.resignFirstResponder()
         if resignedFirstResponder {
             DispatchQueue.main.async { [unowned self] in
