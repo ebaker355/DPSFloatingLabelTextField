@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "DPSFloatingLabelTextField"
-  s.version      = "2.0.5"
+  s.version      = "2.0.6"
   s.summary      = "A UITextField subclass that creates a floating label from the placeholder text."
   s.description  = <<-DESC
   DPSFloatingLabelTextField is a highly-customizable UITextField subclass that
