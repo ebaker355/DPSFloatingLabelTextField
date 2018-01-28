@@ -343,7 +343,7 @@ extension FloatingLabelTextField {
 
         if animated {
             layoutIfNeeded()
-            UIView.animate(withDuration: Defaults.floatAnimationDuration) { _ in
+            UIView.animate(withDuration: Defaults.floatAnimationDuration) {
                 completeState()
                 self.layoutIfNeeded()
             }
